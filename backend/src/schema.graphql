@@ -7,7 +7,7 @@ type Mutation {
 }
 
 type Query {
-  items(where: ItemWhereInput, orderBy: ItemInputByOrder, skip: Int, first: Int): [Item]!
+  items(where: ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, first: Int): [Item]!
   item(where: ItemWhereUniqueInput!): Item! 
   itemsConnection(where:ItemWhereInput): ItemConnection! 
 }
