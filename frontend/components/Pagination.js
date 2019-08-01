@@ -2,6 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import PaginationStyles from './styles/PaginationStyles';
+import { perPage } from '../config';
 import Head from 'next/head';
 import Link from 'next/link';
 
@@ -17,7 +18,14 @@ const PAGINATION_QUERY = gql`
 
 const Pagination = props => {
   return (
-    <PaginationStyles>
+    <Query query={PAGINATION_QUERY}>
+      {({ data, loading, error }) => {
+        if (loading) return <p>loading...</p>;
+        const count = data.itemsConnection.aggregate.count;
+        const pages = Math.ceil(count / perPage);
+        const page = props.page;
+        return (
+          <PaginationStyles>
             <Head>
               <title>Sick Fits | Page {page} of {pages}</title>
             </Head>
@@ -39,8 +47,10 @@ const Pagination = props => {
               }}>
               <a className="next" aria-disabled={page >= pages}>Next →</a>
             </Link>
-      </Query>
-    </PaginationStyles>
+          </PaginationStyles>
+        )
+      }}
+    </Query>
   )
 }
 
