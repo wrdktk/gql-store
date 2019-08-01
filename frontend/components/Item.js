@@ -30,7 +30,7 @@ class Item extends Component {
             query: { id: item.id }
           }}><a>Edit</a></Link>
           <button>Add to Cart</button>
-          <DeleteItem>Delete This Item</DeleteItem>
+          <DeleteItem id={item.id}>Delete This Item</DeleteItem>
         </div>
       </ItemStyles>
     );
