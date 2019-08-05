@@ -1,17 +1,23 @@
-require('dotenv').config({ path: 'variables.env' });
-const createServer = require('./createServer');
-const db = require('./db');
+require("dotenv").config({ path: "variables.env" });
+const cookieParser = require("cookie-parser");
+const createServer = require("./createServer");
+const db = require("./db");
 
 const server = createServer();
 
-//TODO Use express  middleware to handle cookies
-//TODO Use express  middleware to populate current user
+// TODO Use express middleware to handle cookies
+server.express.use(cookieParser());
 
-server.start({
-  cors: {
-    credentials: true,
-    origin: process.env.FRONTEND_URL
+// TODO Use express middleware to populate current user
+
+server.start(
+  {
+    cors: {
+      credentials: true,
+      origin: process.env.FRONTEND_URL
+    }
   },
-}, (deets) => {
-  console.log(`Server is now running on http://localhost:${deets.port}`);
-});
+  deets => {
+    console.log(`Server is now running on http://localhost:${deets.port}`);
+  }
+);
