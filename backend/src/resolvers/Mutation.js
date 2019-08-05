@@ -80,8 +80,17 @@ const Mutations = {
     }
     // 2. verify their password
     const valid = await bcrypt.compare(password, user.password);
+    if (!valid) {
+      throw new Error("Invalid password");
+    }
     // 3. generate JWT token
+    const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
     // 4. set cookie with token
+    ctx.response.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year
+    });
+
     // 5. return user
   }
 };
