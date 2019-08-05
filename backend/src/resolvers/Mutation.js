@@ -75,8 +75,11 @@ const Mutations = {
   async signin(parents, { email, password }, ctx, info) {
     // 1. check if there's a current user
     const user = await ctx.db.query.user({ where: { email } });
+    if (!user) {
+      throw new Error(`No such user found for ${email}`);
+    }
     // 2. verify their password
-
+    const valid = await bcrypt.compare(password, user.password);
     // 3. generate JWT token
     // 4. set cookie with token
     // 5. return user
