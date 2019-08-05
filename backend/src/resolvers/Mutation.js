@@ -1,14 +1,17 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const Mutations = {
   async createItem(parent, args, ctx, info) {
     // TODO
-    const item = await ctx.db.mutation.createItem({
-      data: {
-        ...args
+    const item = await ctx.db.mutation.createItem(
+      {
+        data: {
+          ...args
+        }
       },
-    }, info);
+      info
+    );
     return item;
   },
 
@@ -18,12 +21,15 @@ const Mutations = {
     // remove id from the updates
     delete updates.id;
     // run the updates method
-    return ctx.db.mutation.updateItem({
-      data: updates,
-      where: {
-        id: args.id
+    return ctx.db.mutation.updateItem(
+      {
+        data: updates,
+        where: {
+          id: args.id
+        }
       },
-    }, info);
+      info
+    );
   },
 
   async deleteItem(parent, args, ctx, info) {
@@ -42,26 +48,39 @@ const Mutations = {
     // hash user password
     const password = await bcrypt.hash(args.password, 10);
     // create user in db
-    const user = ctx.db.mutation.createUser({
-      data: {
-        ...args,
-        password,
-        permissions: { set: ['USER'] }
+    const user = ctx.db.mutation.createUser(
+      {
+        data: {
+          ...args,
+          password,
+          permissions: { set: ["USER"] }
+        }
       },
-    }, info);
+      info
+    );
 
     // create JWT token for user
     const token = jwt.sign({ userId: user.id }, process.env.APP_SECRET);
 
     // set JWT as cookie on the res obj
-    ctx.response.cookie('token', token, {
+    ctx.response.cookie("token", token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 365, // 1 year
+      maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year
     });
 
     // return user to the browser
     return user;
+  },
+
+  async signin(parents, { email, password }, ctx, info) {
+    // 1. check if there's a current user
+    const user = await ctx.db.query.user({ where: { email } });
+    // 2. verify their password
+
+    // 3. generate JWT token
+    // 4. set cookie with token
+    // 5. return user
   }
 };
 
-module.exports = Mutations; 
+module.exports = Mutations;
