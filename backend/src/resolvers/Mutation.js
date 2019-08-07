@@ -92,6 +92,7 @@ const Mutations = {
     });
 
     // 5. return user
+    return user;
   }
 };
 
