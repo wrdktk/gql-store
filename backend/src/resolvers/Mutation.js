@@ -1,5 +1,9 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { randomBytes } = require("crypto");
+const { promisfy } = require("util");
+
+// promisfy from node util lib to turn callback based functions (crypto) into promise based funcs
 
 const Mutations = {
   async createItem(parent, args, ctx, info) {
@@ -100,7 +104,9 @@ const Mutations = {
     return {
       message: "Later, alligator!"
     };
-  }
+  },
+
+  async requestReset(parents, args, ctx, info) {}
 };
 
 module.exports = Mutations;
