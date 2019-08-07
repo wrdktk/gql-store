@@ -93,6 +93,13 @@ const Mutations = {
 
     // 5. return user
     return user;
+  },
+
+  signout(parents, args, ctx, info) {
+    ctx.response.clearCookie("token");
+    return {
+      message: "Later, alligator!"
+    };
   }
 };
 
