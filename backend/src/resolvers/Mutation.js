@@ -112,6 +112,11 @@ const Mutations = {
     if (!user) {
       throw new Error(`No such user found for ${args.email}`);
     }
+    // 2. set a token and expiry on that user
+    const resetToken = await promisfy(randomBytes(20)).toString("hex");
+    const resetTokenExpiry = Date.now() + 360000; // an hour from now
+
+    // 3. email them reset token
   }
 };
 
