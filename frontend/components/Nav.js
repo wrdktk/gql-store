@@ -6,13 +6,13 @@ const Nav = () => (
   <NavStyles>
     <User>
       {({ data: { me } }) => {
-        console.log(me);
-        if (me) {
-          return <p>me.name</p>;
+        if (!me) {
+          return null;
         }
-        return null;
+        return <p>{me.name}</p>;
       }}
     </User>
+
     <Link href="/items">
       <a>Shop</a>
     </Link>
