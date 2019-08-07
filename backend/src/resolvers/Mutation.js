@@ -106,7 +106,13 @@ const Mutations = {
     };
   },
 
-  async requestReset(parents, args, ctx, info) {}
+  async requestReset(parents, args, ctx, info) {
+    // 1. check if user is real
+    const user = await ctx.db.query.user({ where: { email: args.email } });
+    if (!user) {
+      throw new Error(`No such user found for ${args.email}`);
+    }
+  }
 };
 
 module.exports = Mutations;
