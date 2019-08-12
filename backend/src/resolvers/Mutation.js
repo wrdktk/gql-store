@@ -130,7 +130,12 @@ const Mutations = {
     }
     // 2. check if legit reset token
     // 3. check if it's expired
-
+    const [user] = await ctx.db.query.user({
+      where: {
+        resetToken: args.resetToken,
+        resetTokenExpiry_gte: Date.now() - 3600000
+      }
+    });
     // 4. hash their new password
     // 5. save the new password to the user and remove old resetToken fields
     // 6. Generate JWT
