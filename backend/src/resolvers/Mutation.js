@@ -136,6 +136,9 @@ const Mutations = {
         resetTokenExpiry_gte: Date.now() - 3600000
       }
     });
+    if (!user) {
+      throw new Error("This token is either invalid or expired");
+    }
     // 4. hash their new password
     // 5. save the new password to the user and remove old resetToken fields
     // 6. Generate JWT
