@@ -76,7 +76,7 @@ const Mutations = {
     return user;
   },
 
-  async signin(parents, { email, password }, ctx, info) {
+  async signin(parent, { email, password }, ctx, info) {
     // 1. check if there's a current user
     const user = await ctx.db.query.user({ where: { email } });
     if (!user) {
@@ -99,25 +99,31 @@ const Mutations = {
     return user;
   },
 
-  signout(parents, args, ctx, info) {
+  signout(parent, args, ctx, info) {
     ctx.response.clearCookie("token");
     return {
       message: "Later, alligator!"
     };
   },
 
-  async requestReset(parents, args, ctx, info) {
+  async requestReset(parent, args, ctx, info) {
     // 1. check if user is real
     const user = await ctx.db.query.user({ where: { email: args.email } });
     if (!user) {
       throw new Error(`No such user found for ${args.email}`);
     }
     // 2. set a token and expiry on that user
-    const resetToken = await promisfy(randomBytes(20)).toString("hex");
+    const randomBytesPromisfied = promisfy(randomBytes);
+    const resetToken = (await randomBytesPromisfied(20)).toString("hex");
     const resetTokenExpiry = Date.now() + 360000; // an hour from now
-
+    const res = ctx.db.mutation.updateUser({
+      where: { email: args.email },
+      data: { resetToken, resetTokenExpiry }
+    });
     // 3. email them reset token
-  }
+  },
+
+  async resetPassword(parent, args, etx, info) {}
 };
 
 module.exports = Mutations;
