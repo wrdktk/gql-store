@@ -1,8 +1,8 @@
-import CreateItem from "../components/CreateItem";
-const Sell = props => (
+import Reset from "../components/Reset";
+const ResetPage = props => (
   <div>
-    <CreateItem />
+    <Reset resetToken={props.query.resetToken} />
   </div>
 );
 
-export default Sell;
+export default ResetPage;
