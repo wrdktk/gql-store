@@ -123,7 +123,20 @@ const Mutations = {
     // 3. email them reset token
   },
 
-  async resetPassword(parent, args, etx, info) {}
+  async resetPassword(parent, args, etx, info) {
+    // 1. check if passwords match
+    if (args.password !== args.confirmPassword) {
+      throw new Error("Password do not match");
+    }
+    // 2. check if legit reset token
+    // 3. check if it's expired
+
+    // 4. hash their new password
+    // 5. save the new password to the user and remove old resetToken fields
+    // 6. Generate JWT
+    // 7. set the new JWT
+    // 8. return the new user
+  }
 };
 
 module.exports = Mutations;
