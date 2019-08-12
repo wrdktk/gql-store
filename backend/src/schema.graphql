@@ -18,7 +18,7 @@ type Mutation {
   signout: SuccessMessage
   requestReset(email: String!): SuccessMessage
   requestPassword(
-    restToken: String!
+    resetToken: String!
     password: String!
     confirmPassword: String!
   ): User!
