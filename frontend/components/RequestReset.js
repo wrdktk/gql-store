@@ -23,7 +23,7 @@ class Signin extends Component {
   render() {
     return (
       <Mutation mutation={REQUEST_RESET_MUTATION} variables={this.state}>
-        {(reset, { error, loading }) => (
+        {(reset, { error, loading, called }) => (
           <Form
             method="post"
             onSubmit={async e => {
@@ -36,7 +36,9 @@ class Signin extends Component {
             <fieldset disabled={loading} aria-busy={loading}>
               <h2>Request A Password Reset</h2>
               <Error error={error} />
-
+              {!error && !loading && called && (
+                <p>Check your email for reset link</p>
+              )}
               <label htmlFor="email">
                 Email
                 <input
