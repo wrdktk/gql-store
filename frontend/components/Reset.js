@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { Mutation } from "react-apollo";
 import gql from "graphql-tag";
+import PropTypes from "prop-types";
 import Form from "./styles/Form";
 import Error from "./ErrorMessage";
-import PropTypes from "prop-types";
+import { CURRENT_USER_QUERY } from "./User";
 
 const RESET_MUTATION = gql`
   mutation RESET_MUTATION(
@@ -36,6 +37,7 @@ class Reset extends Component {
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
+
   render() {
     return (
       <Mutation
@@ -45,30 +47,38 @@ class Reset extends Component {
           password: this.state.password,
           confirmPassword: this.state.confirmPassword
         }}
+        refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
-        {(reset, { error, loading, called }) => (
+        {(reset, { error, loading }) => (
           <Form
             method="post"
             onSubmit={async e => {
               e.preventDefault();
               const res = await reset();
               console.log(res);
-              this.setState({ email: "" });
+              this.setState({ password: "", confirmPassword: "" });
             }}
           >
             <fieldset disabled={loading} aria-busy={loading}>
-              <h2>Request A Password Reset</h2>
+              <h2>Reset Your Password </h2>
               <Error error={error} />
-              {!error && !loading && called && (
-                <p>Check your email for reset link</p>
-              )}
-              <label htmlFor="email">
-                Email
+              <label htmlFor="password">
+                Password
                 <input
-                  type="email"
-                  placeholder="email"
-                  name="email"
-                  value={this.state.email}
+                  type="password"
+                  placeholder="Enter Your Password"
+                  name="password"
+                  value={this.state.password}
+                  onChange={this.saveToState}
+                />
+              </label>
+              <label htmlFor="confirmPassword">
+                Confirm Password
+                <input
+                  type="password"
+                  placeholder="Confirm Password"
+                  name="confirmPassword"
+                  value={this.state.confirmPassword}
                   onChange={this.saveToState}
                 />
               </label>
