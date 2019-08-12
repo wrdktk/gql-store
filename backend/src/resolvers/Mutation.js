@@ -142,6 +142,16 @@ const Mutations = {
     // 4. hash their new password
     const password = await bcrypt.hash(args.password, 10);
     // 5. save the new password to the user and remove old resetToken fields
+    const updatedUser = await ctx.db.mutation.updateUser({
+      where: {
+        email: user.email
+      },
+      data: {
+        password,
+        resetToken: null,
+        resetTokenExpiry: null
+      }
+    });
     // 6. Generate JWT
     // 7. set the new JWT
     // 8. return the new user
