@@ -130,7 +130,7 @@ const Mutations = {
     }
     // 2. check if legit reset token
     // 3. check if it's expired
-    const [user] = await ctx.db.query.user({
+    const [user] = await ctx.db.query.users({
       where: {
         resetToken: args.resetToken,
         resetTokenExpiry_gte: Date.now() - 3600000
@@ -155,7 +155,13 @@ const Mutations = {
     // 6. Generate JWT
     const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
     // 7. set the new JWT
+    ctx.response.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 365 // 1 year
+    });
+
     // 8. return the new user
+    return updatedUser;
   }
 };
 
