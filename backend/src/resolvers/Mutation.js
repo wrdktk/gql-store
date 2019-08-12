@@ -153,6 +153,7 @@ const Mutations = {
       }
     });
     // 6. Generate JWT
+    const token = jwt.sign({ userId: updatedUser.id }, process.env.APP_SECRET);
     // 7. set the new JWT
     // 8. return the new user
   }
