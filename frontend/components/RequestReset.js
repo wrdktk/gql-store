@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
-import Form from "./styles/Form";
-import Error from "./ErrorMessage";
+import React, { Component } from 'react';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
+import Form from './styles/Form';
+import Error from './ErrorMessage';
 
 const REQUEST_RESET_MUTATION = gql`
   mutation REQUEST_RESET_MUTATION($email: String!) {
@@ -12,11 +12,10 @@ const REQUEST_RESET_MUTATION = gql`
   }
 `;
 
-class Signin extends Component {
+class RequestReset extends Component {
   state = {
-    email: ""
+    email: '',
   };
-
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -28,29 +27,26 @@ class Signin extends Component {
             method="post"
             onSubmit={async e => {
               e.preventDefault();
-              const res = await reset();
-              console.log(res);
-              this.setState({ email: "" });
+              await reset();
+              this.setState({ email: '' });
             }}
           >
             <fieldset disabled={loading} aria-busy={loading}>
               <h2>Request A Password Reset</h2>
               <Error error={error} />
-              {!error && !loading && called && (
-                <p>Check your email for reset link</p>
-              )}
+              {!error && !loading && called && <p>Success! Check your email for a reset link!</p>}
               <label htmlFor="email">
                 Email
                 <input
                   type="email"
-                  placeholder="email"
                   name="email"
+                  placeholder="email"
                   value={this.state.email}
                   onChange={this.saveToState}
                 />
               </label>
 
-              <button type="submit">Reset Password</button>
+              <button type="submit">Request Reset!</button>
             </fieldset>
           </Form>
         )}
@@ -59,4 +55,4 @@ class Signin extends Component {
   }
 }
 
-export default Signin;
+export default RequestReset;
