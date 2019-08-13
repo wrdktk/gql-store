@@ -1,22 +1,14 @@
-import React, { Component } from "react";
-import { Mutation } from "react-apollo";
-import gql from "graphql-tag";
-import PropTypes from "prop-types";
-import Form from "./styles/Form";
-import Error from "./ErrorMessage";
-import { CURRENT_USER_QUERY } from "./User";
+import React, { Component } from 'react';
+import { Mutation } from 'react-apollo';
+import gql from 'graphql-tag';
+import PropTypes from 'prop-types';
+import Form from './styles/Form';
+import Error from './ErrorMessage';
+import { CURRENT_USER_QUERY } from './User';
 
 const RESET_MUTATION = gql`
-  mutation RESET_MUTATION(
-    $resetToken: String!
-    $password: String!
-    $confirmPassword: String!
-  ) {
-    requestReset(
-      resetToken: $resetToken
-      password: $password
-      confirmPassword: $confirmPassword
-    ) {
+  mutation RESET_MUTATION($resetToken: String!, $password: String!, $confirmPassword: String!) {
+    requestPassword(resetToken: $resetToken, password: $password, confirmPassword: $confirmPassword) {
       id
       email
       name
@@ -26,18 +18,15 @@ const RESET_MUTATION = gql`
 
 class Reset extends Component {
   static propTypes = {
-    resetToken: PropTypes.string.isRequired
+    resetToken: PropTypes.string.isRequired,
   };
-
   state = {
-    password: "",
-    confirmPassword: ""
+    password: '',
+    confirmPassword: '',
   };
-
   saveToState = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
-
   render() {
     return (
       <Mutation
@@ -45,45 +34,45 @@ class Reset extends Component {
         variables={{
           resetToken: this.props.resetToken,
           password: this.state.password,
-          confirmPassword: this.state.confirmPassword
+          confirmPassword: this.state.confirmPassword,
         }}
         refetchQueries={[{ query: CURRENT_USER_QUERY }]}
       >
-        {(reset, { error, loading }) => (
+        {(reset, { error, loading, called }) => (
           <Form
             method="post"
             onSubmit={async e => {
               e.preventDefault();
-              const res = await reset();
-              console.log(res);
-              this.setState({ password: "", confirmPassword: "" });
+              await reset();
+              this.setState({ password: '', confirmPassword: '' });
             }}
           >
             <fieldset disabled={loading} aria-busy={loading}>
-              <h2>Reset Your Password </h2>
+              <h2>Reset Your Password</h2>
               <Error error={error} />
               <label htmlFor="password">
                 Password
                 <input
                   type="password"
-                  placeholder="Enter Your Password"
                   name="password"
+                  placeholder="password"
                   value={this.state.password}
                   onChange={this.saveToState}
                 />
               </label>
+
               <label htmlFor="confirmPassword">
-                Confirm Password
+                Confirm Your Password
                 <input
                   type="password"
-                  placeholder="Confirm Password"
                   name="confirmPassword"
+                  placeholder="confirmPassword"
                   value={this.state.confirmPassword}
                   onChange={this.saveToState}
                 />
               </label>
 
-              <button type="submit">Reset Password</button>
+              <button type="submit">Reset Your Password!</button>
             </fieldset>
           </Form>
         )}
