@@ -23,6 +23,8 @@ const Query = {
     if (!ctx.request.userId) {
       throw new Error('You must be logged in');
     }
+    // 2. check if the user has permission to query all the users
+    hasPermissions(ctx.request.user, ['ADMIN', 'PERMISSIONUPDATE']);
   },
 };
 
