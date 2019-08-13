@@ -121,6 +121,20 @@ const Mutations = {
       data: { resetToken, resetTokenExpiry }
     });
     // 3. email them reset token
+    const mailRes = await transport.sendMail({
+      from: 'wardamk@gmail.com',
+      to: user.email,
+      subject: 'Your Password Reset Token',
+      html: makeANiceEmail(`Your Password Reset Token is here!
+      \n\n
+      <a href="${
+  // eslint-disable-next-line indent
+        process.env.FRONTEND_URL
+}/reset?resetToken=${resetToken}">Click Here to Reset</a>`),
+    });
+
+    // 4. Return the message
+    return { message: 'Thanks!' };
   },
 
   async requestPassword(parent, args, etx, info) {
