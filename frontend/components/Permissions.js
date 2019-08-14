@@ -3,6 +3,7 @@ import gql from 'graphql-tag';
 import Error from './ErrorMessage';
 import Table from './styles/Table';
 import SickButton from './styles/SickButton';
+import PropTypes from 'prop-types';
 
 const ALL_USERS_QUERY = gql`
   query ALL_USERS_QUERY{
@@ -40,7 +41,7 @@ const Permissions = props => (
             </tr>
           </thead>
           <tbody>
-           {data.users.map(user=><User user={user} key={user.id}/>)}
+           {data.users.map(user=><UserPermissions user={user} key={user.id}/>)}
           </tbody>
         </Table>
     </div>
@@ -48,7 +49,19 @@ const Permissions = props => (
   </Query>
 )
 
-class User extends React.Component {
+class UserPermissions extends React.Component {
+  static propTypes = {
+    user: PropTypes.shape({
+       name: PropTypes.string,
+       email: PropTypes.string,
+       id: PropTypes.string,
+       permissions: PropTypes.array,
+    }).isRequired,
+  }
+  state = {
+    permissions: this.props.user.permissions,
+  }
+
   render() {
     const user = this.props.user;
     return (
