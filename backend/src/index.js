@@ -24,6 +24,8 @@ server.express.use(async (req, res, next) => {
   // if user is not logged in, skip this
   if (!req.userId) return next();
   const user = await db.query.user({ where: { id: req.userId } }, '{id, name, email, permissions}');
+  req.user = user;
+  next();
 });
 
 
