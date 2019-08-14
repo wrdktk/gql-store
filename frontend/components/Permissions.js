@@ -2,6 +2,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import Error from './ErrorMessage';
 import Table from './styles/Table';
+import SickButton from './styles/SickButton';
 
 const ALL_USERS_QUERY = gql`
   query ALL_USERS_QUERY{
@@ -60,7 +61,7 @@ class User extends React.Component {
             <label htmlFor={`${user.id}-permission-${permission}`}><input type="checkbox"/></label>
           </td>
         ))}
-        <td></td>
+        <td><SickButton>Update</SickButton></td>
       </tr>
     )
   }
