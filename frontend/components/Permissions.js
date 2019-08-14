@@ -36,7 +36,7 @@ const Permissions = props => (
               <td>NAME</td>
               <td>EMAIL</td>
               {possiblePermissions.map(permission =>
-                <th>{permission}</th>)}
+                <th key={permission}>{permission}</th>)}
               <th>UPDATE</th>
             </tr>
           </thead>
@@ -70,8 +70,11 @@ class UserPermissions extends React.Component {
         <td>{user.name}</td>
         <td>{user.email}</td>
         {possiblePermissions.map(permission => (
-          <td>
-            <label htmlFor={`${user.id}-permission-${permission}`}><input type="checkbox"/></label>
+          <td key={permission}>
+            <label htmlFor={`${user.id}-permission-${permission}`}><input type="checkbox"
+              checked={this.state.permissions.includes(permission)}
+              value={permission}
+            onChange={this.handlePermissionChange}/></label>
           </td>
         ))}
         <td><SickButton>Update</SickButton></td>
