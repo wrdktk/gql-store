@@ -16,8 +16,8 @@ const ALL_USERS_QUERY = gql`
   }
 `
 const UPDATE_PERMISSIONS_MUTATION = gql`
-  mutation updatedPermissions($permissions: [Permission], $userId: ID!){
-    updatedPermissions(permissions: $permissions, uerId: $userId){
+  mutation updatePermissions($permissions: [Permission], $userId: ID!){
+    updatePermissions(permissions: $permissions, userId: $userId){
       id
       permissions
       name
@@ -96,7 +96,7 @@ class UserPermissions extends React.Component {
       }}>
         {(updatedPermissions, { loading, error }) => (
           <>
-          {error && <tr><Error error={error}/></tr>}
+          {error && <tr><td colspan="8"><Error error={error}/></td></tr>}
           <tr>
             <td>{user.name}</td>
             <td>{user.email}</td>
@@ -111,7 +111,7 @@ class UserPermissions extends React.Component {
                 onChange={this.handlePermissionChange }/></label>
               </td>
             ))}
-            <td><SickButton type="button" disabled={loading} onClick={updatedPermissions }>Update</SickButton></td>
+            <td><SickButton type="button" disabled={loading} onClick={updatedPermissions }>Updat{loading ? 'ing' : 'e'}</SickButton></td>
           </tr>
           </>
         )}
