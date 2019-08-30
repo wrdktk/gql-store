@@ -191,6 +191,11 @@ const Mutations = {
       throw new Error('You must be logged in!');
     }
     // query the current user
+    const currentUser = await ctx.db.query.user({
+      where: {
+        id: ctx.request.userId,
+      },
+    }, info);
     // does user have permission to do this
     // update the permissions
   },
