@@ -22,7 +22,13 @@ function createClient({ headers }) {
             // read the cart open value from cache
             const { cartOpen } = cache.readQuery({
               query: LOCAL_STATE_QUERY
-            })
+            });
+            // write the cartOpen state to opposite
+            const data = {
+              data: { cartOpen: !cartOpen },
+            };
+            cache.writeData(data);
+            return data;
           }
         }
       },
