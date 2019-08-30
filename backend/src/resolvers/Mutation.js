@@ -136,8 +136,7 @@ const Mutations = {
       html: makeANiceEmail(`Your Password Reset Token is here!
       \n\n
       <a href="${
-  // eslint-disable-next-line indent
-        process.env.FRONTEND_URL
+  process.env.FRONTEND_URL
 }/reset?resetToken=${resetToken}">Click Here to Reset</a>`),
     });
 
@@ -184,6 +183,10 @@ const Mutations = {
 
     // 8. return the new user
     return updatedUser;
+  },
+
+  async updatePermissions(parent, args, ctx, info) {
+    // query the current user
   },
 };
 
