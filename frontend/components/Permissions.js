@@ -90,7 +90,13 @@ class UserPermissions extends React.Component {
   render() {
     const user = this.props.user;
     return (
+      <Mutation muation={UPDATE_PERMISSIONS_MUTATION} variables={{
+        permissions: this.state.permissions,
+        userId: this.props.user.id
+      }}>
 
+        
+      </Mutation>
       <tr>
         <td>{user.name}</td>
         <td>{user.email}</td>
