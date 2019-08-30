@@ -186,7 +186,13 @@ const Mutations = {
   },
 
   async updatePermissions(parent, args, ctx, info) {
+    // check if logged in
+    if (!ctx.request.userId) {
+      throw new Error('You must be logged in!');
+    }
     // query the current user
+    // does user have permission to do this
+    // update the permissions
   },
 };
 
