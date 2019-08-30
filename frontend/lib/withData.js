@@ -1,6 +1,7 @@
 import withApollo from 'next-with-apollo';
 import ApolloClient from 'apollo-boost';
 import { endpoint } from '../config';
+import { LOCAL_STATE_QUERY } from '../components/Cart'; 
 
 function createClient({ headers }) {
   return new ApolloClient({
@@ -19,6 +20,9 @@ function createClient({ headers }) {
         Mutatation: {
           toggleCart(_, variables, { cache }) {
             // read the cart open value from cache
+            const { cartOpen } = cache.readQuery({
+              query: LOCAL_STATE_QUERY
+            })
           }
         }
       },
