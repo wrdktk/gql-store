@@ -198,8 +198,18 @@ const Mutations = {
       },
     }, info);
     // does user have permission to do this
-    hasPermissions(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
+    hasPermission(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
     // update the permissions
+    return ctx.db.mutation.updateUser({
+      data: {
+        permissions: {
+          set: args.permissions,
+        },
+      },
+      where: {
+        id: args.userId,
+      },
+    }, info);
   },
 };
 
