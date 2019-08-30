@@ -15,7 +15,13 @@ function createClient({ headers }) {
     },
     //local data/state
     clientState: {
-      resolvers: {},
+      resolvers: {
+        Mutatation: {
+          toggleCart(_, variables, { cache }) {
+            // read the cart open value from cache
+          }
+        }
+      },
       defaults: {
         cartOpen: true
       }
