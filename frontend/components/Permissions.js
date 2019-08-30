@@ -90,29 +90,32 @@ class UserPermissions extends React.Component {
   render() {
     const user = this.props.user;
     return (
-      <Mutation muation={UPDATE_PERMISSIONS_MUTATION} variables={{
+      <Mutation mutation={UPDATE_PERMISSIONS_MUTATION} variables={{
         permissions: this.state.permissions,
         userId: this.props.user.id
       }}>
-
-        
+        {(updatedPermissions, { loading, error }) => (
+          <>
+          {error && <tr><Error error={error}/></tr>}
+          <tr>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+            {possiblePermissions.map(permission => (
+              <td key={permission}>
+                <label htmlFor={`${user.id}-permission-${permission}`}>
+                  <input
+                  id={`${user.id}-permission-${permission}`}  
+                  type="checkbox"
+                  checked={this.state.permissions.includes(permission)}
+                  value={permission}
+                onChange={this.handlePermissionChange }/></label>
+              </td>
+            ))}
+            <td><SickButton type="button" disabled={loading} onClick={updatedPermissions }>Update</SickButton></td>
+          </tr>
+          </>
+        )}
       </Mutation>
-      <tr>
-        <td>{user.name}</td>
-        <td>{user.email}</td>
-        {possiblePermissions.map(permission => (
-          <td key={permission}>
-            <label htmlFor={`${user.id}-permission-${permission}`}>
-              <input
-              id={`${user.id}-permission-${permission}`}  
-              type="checkbox"
-              checked={this.state.permissions.includes(permission)}
-              value={permission}
-            onChange={this.handlePermissionChange }/></label>
-          </td>
-        ))}
-        <td><SickButton>Update</SickButton></td>
-      </tr>
     )
   }
 }
