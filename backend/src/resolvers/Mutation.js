@@ -197,6 +197,7 @@ const Mutations = {
       },
     }, info);
     // does user have permission to do this
+    hasPermissions(currentUser, ['ADMIN', 'PERMISSIONUPDATE']);
     // update the permissions
   },
 };
