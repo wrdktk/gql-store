@@ -15,6 +15,17 @@ const ALL_USERS_QUERY = gql`
     } 
   }
 `
+const UPDATE_PERMISSIONS_MUTATION = gql`
+  mutation updatedPermissions($permissions: [Permission], $userId: ID!){
+    updatedPermissions(permissions: $permissions, uerId: $userId){
+      id
+      permissions
+      name
+      email
+    }
+  }
+`;
+
 const possiblePermissions = [
   'ADMIN',
   'USER',
